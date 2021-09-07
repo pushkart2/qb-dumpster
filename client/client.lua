@@ -20,7 +20,7 @@ Citizen.CreateThread(function()
     end
 end)
 
-function DrawText3D2(x, y, z, text)
+function DrawText3D(x, y, z, text)
     SetTextScale(0.35, 0.35)
     SetTextFont(4)
     SetTextProportional(1)
@@ -78,7 +78,7 @@ function dumpsterKeyPressed()
     Citizen.CreateThread(function()
         while listening do
             Citizen.Wait(0)
-            DrawText3D2(currentCoords.x, currentCoords.y, currentCoords.z + 1.0, 'Press [~y~E~w~] to dumpster dive')
+            DrawText3D(currentCoords.x, currentCoords.y, currentCoords.z + 1.0, 'Press [~y~E~w~] to dumpster dive')
             if IsControlJustReleased(0, 54) then
                 for i = 1, #searched do
                     if searched[i] == dumpster then
@@ -87,7 +87,7 @@ function dumpsterKeyPressed()
                     if i == #searched and dumpsterFound then
                         QBCore.Functions.Notify('This dumpster has already been searched', 'error')
                     elseif i == #searched and not dumpsterFound then
-                        QBCore.Functions.Notify('You begin to search the dumpster', 'error')
+                        QBCore.Functions.Notify('You begin to search the dumpster', 'success')
                         QBCore.Functions.Progressbar("dumpsters", "Searching Dumpster", 14000, false, false, {
                             disableMovement = false,
                             disableCarMovement = false,
@@ -98,8 +98,8 @@ function dumpsterKeyPressed()
                             anim = "base",
                             flags = 49,
                         }, {}, {}, function()
-                            TriggerServerEvent("pixellife:giveDumpsterReward")
-                            TriggerServerEvent('pixellife:startDumpsterTimer', dumpster)
+                            TriggerServerEvent("qb:server:giveDumpsterReward")
+                            TriggerServerEvent('qb:server:startDumpsterTimer', dumpster)
                             table.insert(searched, dumpster)
                         end, function()
                             QBCore.Functions.Notify('You cancelled the search', 'error')

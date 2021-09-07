@@ -1,28 +1,27 @@
 QBCore = nil
 TriggerEvent('QBCore:GetObject', function(obj) QBCore = obj end)
 
-RegisterServerEvent('pixellife:startDumpsterTimer')
-AddEventHandler('pixellife:startDumpsterTimer', function(dumpster)
+RegisterServerEvent('qb:server:startDumpsterTimer')
+AddEventHandler('qb:server:startDumpsterTimer', function(dumpster)
     startTimer(source, dumpster)
 end)
 
-RegisterServerEvent('pixellife:giveDumpsterReward')
-AddEventHandler('pixellife:giveDumpsterReward', function()
-    local xPlayer, randomItem = QBCore.Functions.GetPlayer(source), Config.Items[math.random(1, #Config.Items)]
-    if math.random(0, 100) <= Config.ChanceToGetItem then
-        xPlayer.Functions.AddItem(randomItem, 1)
-		TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items[randomItem], "add")
+RegisterServerEvent('qb:server:giveDumpsterReward')
+AddEventHandler('qb:server:giveDumpsterReward', function()
+    local xPlayer = QBCore.Functions.GetPlayer(source) 
+    local randomItem = Config.Items[math.random(1, #Config.Items)]
+    if xPlayer.Functions.AddItem(randomItem, 1) then
+        TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items[randomItem], "add")
+    else
+        TriggerClientEvent("QBCore:Notify", source, "You dont have enough space", "error")
     end
 end)
 
-function startTimer(id, object)
-    local timer = 10 * 14000
+local timer = Config.WaitTime * 60 * 1000
 
-    while timer > 0 do
-        Wait(1000)
-        timer = timer - 1000
-        if timer == 0 then
-            TriggerClientEvent('pixellife:removeDumpster', id, object)
-        end
-    end
+function startTimer(id, object)
+    Citizen.CreateThread(function()
+        Citizen.Wait(timer)
+        TriggerClientEvent('qb:server:startDumpsterTimer', id, object)
+    end)
 end

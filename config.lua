@@ -1,4 +1,5 @@
 Config = {
-    ChanceToGetItem = 50, -- if math.random(0, 100) <= ChanceToGetItem then give item
-    Items = {'emerald','glass','advancedlockpick','diamond_ring','plastic'},
+    Items = {'plastic','iron','glass','steel','copper'},
 }
+
+Config.WaitTime = 10 -- in minutes
