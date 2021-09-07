@@ -9,8 +9,9 @@ local dumpPos
 local nearDumpster = false
 local maxDistance = 2.5
 local listening = false
-local dumspter
+local dumpster
 local currentCoords = nil
+local realDumpster
 
 Citizen.CreateThread(function() 
     while QBCore == nil do
@@ -45,6 +46,9 @@ Citizen.CreateThread(function()
             for i = 1, #dumpsters do
                 local distance
                 dumpster = GetClosestObjectOfType(pos.x, pos.y, pos.z, 1.0, dumpsters[i], false, false, false)
+                if dumpster ~= 0 then
+                    realDumpster = dumpster 
+                end
                 dumpPos = GetEntityCoords(dumpster)
                 local distance = #(pos - dumpPos)
                 if distance < maxDistance then
@@ -73,18 +77,19 @@ function dumpsterKeyPressed()
     listening = true
     Citizen.CreateThread(function()
         while listening do
+            local dumpsterFound = false
             Citizen.Wait(0)
             DrawText3D(currentCoords.x, currentCoords.y, currentCoords.z + 1.0, 'Press [~y~E~w~] to dumpster dive')
             if IsControlJustReleased(0, 54) then
                 for i = 1, #searched do
-                    if searched[i] == dumpster then
+                    if searched[i] == realDumpster then
                         dumpsterFound = true
                     end
                     if i == #searched and dumpsterFound then
                         QBCore.Functions.Notify('This dumpster has already been searched', 'error')
                     elseif i == #searched and not dumpsterFound then
                         QBCore.Functions.Notify('You begin to search the dumpster', 'success')
-                        QBCore.Functions.Progressbar("dumpsters", "Searching Dumpster", 14000, false, false, {
+                        QBCore.Functions.Progressbar("dumpsters", "Searching Dumpster", 1000, false, false, {
                             disableMovement = false,
                             disableCarMovement = false,
                             disableMouse = false,
@@ -96,7 +101,7 @@ function dumpsterKeyPressed()
                         }, {}, {}, function()
                             TriggerServerEvent("qb:server:giveDumpsterReward")
                             TriggerServerEvent('qb:server:startDumpsterTimer', dumpster)
-                            table.insert(searched, dumpster)
+                            table.insert(searched, realDumpster)
                         end, function()
                             QBCore.Functions.Notify('You cancelled the search', 'error')
                         end)
