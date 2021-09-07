@@ -1,6 +1,3 @@
-QBCore = nil
-TriggerEvent('QBCore:GetObject', function(obj) QBCore = obj end)
-
 RegisterServerEvent('qb:server:startDumpsterTimer')
 AddEventHandler('qb:server:startDumpsterTimer', function(dumpster)
     startTimer(source, dumpster)
