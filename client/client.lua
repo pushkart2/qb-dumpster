@@ -10,7 +10,6 @@ local nearDumpster = false
 local maxDistance = 2.5
 local listening = false
 local dumspter
-local proceed = false
 local currentCoords = nil
 
 Citizen.CreateThread(function() 
@@ -50,15 +49,12 @@ Citizen.CreateThread(function()
                 local distance = #(pos - dumpPos)
                 if distance < maxDistance then
                     currentCoords = dumpPos
-                    proceed = true
                 end
-                if proceed then
-                    if distance < maxDistance then
-                        awayFromGarbage = false
-                        nearDumpster = true
-                        if not listening then
-							dumpsterKeyPressed()
-						end
+                if distance < maxDistance then
+                    awayFromGarbage = false
+                    nearDumpster = true
+                    if not listening then
+                        dumpsterKeyPressed()
                     end
                 end
             end
