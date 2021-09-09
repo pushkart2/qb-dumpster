@@ -1,3 +1,5 @@
+QBCore = nil
+
 local searched = {3423423424}
 local canSearch = true
 local dumpsters = {218085040, 666561306, -58485588, -206690185, 1511880420, 682791951}
@@ -10,6 +12,13 @@ local listening = false
 local dumpster
 local currentCoords = nil
 local realDumpster
+
+Citizen.CreateThread(function() 
+    while QBCore == nil do
+        TriggerEvent("QBCore:GetObject", function(obj) QBCore = obj end)    
+        Citizen.Wait(200)
+    end
+end)
 
 function DrawText3D(x, y, z, text)
     SetTextScale(0.35, 0.35)

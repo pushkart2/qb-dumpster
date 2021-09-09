@@ -5,9 +5,6 @@ description 'QB-Dumpster'
 author 'Snipe'
 version '1.0.0'
 
-shared_scripts {
-  'config.lua',
-  '@qb-core/import.lua'
-}
+shared_script 'config.lua'
 client_script 'client/client.lua'
 server_script 'server/server.lua'

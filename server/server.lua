@@ -1,3 +1,6 @@
+QBCore = nil
+TriggerEvent('QBCore:GetObject', function(obj) QBCore = obj end)
+
 local timer = Config.WaitTime * 60 * 1000
 
 RegisterServerEvent('qb-dumpster:server:startDumpsterTimer')
