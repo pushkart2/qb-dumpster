@@ -1,10 +1,15 @@
-fx_verison 'cerulean'
+
+fx_version 'cerulean'
 game 'gta5'
+description 'qb-dumpster Edited by Snipe'
+version "1.0.0"
 
-description 'QB-Dumpster'
-author 'Snipe'
-version '1.0.0'
+client_scripts {
+  'client/client.lua',
+  'config.lua'
+}
 
-shared_script 'config.lua'
-client_script 'client/client.lua'
-server_script 'server/server.lua'
+server_scripts {
+  'config.lua',
+  'server/server.lua',
+}
