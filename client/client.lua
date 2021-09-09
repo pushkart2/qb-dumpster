@@ -79,7 +79,7 @@ function dumpsterKeyPressed()
         while listening do
             local dumpsterFound = false
             Citizen.Wait(0)
-            DrawText3D(currentCoords.x, currentCoords.y, currentCoords.z + 1.0, 'Press [~y~E~w~] to dumpster dive')
+            DrawText3D(currentCoords.x, currentCoords.y, currentCoords.z + 1.0, '~g~E~w~ - dumpster dive')
             if IsControlJustReleased(0, 54) then
                 for i = 1, #searched do
                     if searched[i] == realDumpster then
@@ -99,8 +99,8 @@ function dumpsterKeyPressed()
                             anim = "base",
                             flags = 49,
                         }, {}, {}, function()
-                            TriggerServerEvent("qb:server:giveDumpsterReward")
-                            TriggerServerEvent('qb:server:startDumpsterTimer', dumpster)
+                            TriggerServerEvent("qb-dumpster:server:giveDumpsterReward")
+                            TriggerServerEvent('qb-dumpster:server:startDumpsterTimer', dumpster)
                             table.insert(searched, realDumpster)
                         end, function()
                             QBCore.Functions.Notify('You cancelled the search', 'error')
