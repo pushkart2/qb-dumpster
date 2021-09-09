@@ -1,13 +1,12 @@
-QBCore = nil
-TriggerEvent('QBCore:GetObject', function(obj) QBCore = obj end)
+local timer = Config.WaitTime * 60 * 1000
 
-RegisterServerEvent('qb:server:startDumpsterTimer')
-AddEventHandler('qb:server:startDumpsterTimer', function(dumpster)
+RegisterServerEvent('qb-dumpster:server:startDumpsterTimer')
+AddEventHandler('qb-dumpster:server:startDumpsterTimer', function(dumpster)
     startTimer(source, dumpster)
 end)
 
-RegisterServerEvent('qb:server:giveDumpsterReward')
-AddEventHandler('qb:server:giveDumpsterReward', function()
+RegisterServerEvent('qb-dumpster:server:giveDumpsterReward')
+AddEventHandler('qb-dumpster:server:giveDumpsterReward', function()
     local xPlayer = QBCore.Functions.GetPlayer(source) 
     local randomItem = Config.Items[math.random(1, #Config.Items)]
     if xPlayer.Functions.AddItem(randomItem, 1) then
@@ -17,11 +16,9 @@ AddEventHandler('qb:server:giveDumpsterReward', function()
     end
 end)
 
-local timer = Config.WaitTime * 60 * 1000
-
 function startTimer(id, object)
     Citizen.CreateThread(function()
         Citizen.Wait(timer)
-        TriggerClientEvent('qb:server:startDumpsterTimer', id, object)
+        TriggerClientEvent('qb-dumpster:server:startDumpsterTimer', id, object)
     end)
 end

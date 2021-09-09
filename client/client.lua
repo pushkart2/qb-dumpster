@@ -1,5 +1,3 @@
-QBCore = nil
-
 local searched = {3423423424}
 local canSearch = true
 local dumpsters = {218085040, 666561306, -58485588, -206690185, 1511880420, 682791951}
@@ -12,13 +10,6 @@ local listening = false
 local dumpster
 local currentCoords = nil
 local realDumpster
-
-Citizen.CreateThread(function() 
-    while QBCore == nil do
-        TriggerEvent("QBCore:GetObject", function(obj) QBCore = obj end)    
-        Citizen.Wait(200)
-    end
-end)
 
 function DrawText3D(x, y, z, text)
     SetTextScale(0.35, 0.35)
@@ -79,7 +70,7 @@ function dumpsterKeyPressed()
         while listening do
             local dumpsterFound = false
             Citizen.Wait(0)
-            DrawText3D(currentCoords.x, currentCoords.y, currentCoords.z + 1.0, 'Press [~y~E~w~] to dumpster dive')
+            DrawText3D(currentCoords.x, currentCoords.y, currentCoords.z + 1.0, '~g~E~w~ - dumpster dive')
             if IsControlJustReleased(0, 54) then
                 for i = 1, #searched do
                     if searched[i] == realDumpster then
@@ -99,8 +90,8 @@ function dumpsterKeyPressed()
                             anim = "base",
                             flags = 49,
                         }, {}, {}, function()
-                            TriggerServerEvent("qb:server:giveDumpsterReward")
-                            TriggerServerEvent('qb:server:startDumpsterTimer', dumpster)
+                            TriggerServerEvent("qb-dumpster:server:giveDumpsterReward")
+                            TriggerServerEvent('qb-dumpster:server:startDumpsterTimer', dumpster)
                             table.insert(searched, realDumpster)
                         end, function()
                             QBCore.Functions.Notify('You cancelled the search', 'error')
