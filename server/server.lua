@@ -1,4 +1,5 @@
-QBCore = nil
+local QBCore = exports['qb-core']:GetCoreObject()
+
 TriggerEvent('QBCore:GetObject', function(obj) QBCore = obj end)
 
 local timer = Config.WaitTime * 60 * 1000
